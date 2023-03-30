@@ -26,58 +26,60 @@
 #
 #         return []
 
-# import wav2letter as w2l
-# import torch
-# import torchaudio
-# import numpy as np
-# import os
-# import json
-# import time
-# import requests
-# function to get live audio from microphone
-def get_audio():
-     # get audio from microphone
-    r = requests.get('http://localhost:5000/audio')
-    audio = r.content
-    return audio
-# save audio to file
-    with open('audio.wav', 'wb') as f:
-        f.write(audio)
-    # load audio from file
-    audio, sr = torchaudio.load('audio.wav')
-    return audio, sr
-# function to get text from audio
-def get_text(audio):
-# get text from audio
-    text = model.decode(audio)
-    return text
-# function to get intent from text
-def get_intent(text):
-        # get intent from text
-    intent = model.interpreter(text)
-    return intent
-# function to get response from intent
-def get_response(intent):
-    # get response from intent
-    response = model.interpreter(intent)
-    return response
-# function to send response to user
-def send_response(response):
-        # send response to user
-    print(response)
-# function to get action from intent
-def get_action(intent):
-        # get action from intent
-    action = model.interpreter(intent)
-    return action
-# function to run action
-def run_action(action):
-        # run action
-    model.interpreter(action)
-# function to convert live audio to text
-def audio_to_text():
-        # get audio from microphone
-    audio = get_audio()
-        # get text from audio
-    text = get_text(audio)
-    return text
+import os
+import requests
+import speech_recognition as sr
+import soundfile as sf
+import torch
+import torchaudio
+from speechbrain.pretrained import EncoderDecoderASR
+
+from rasa_sdk import Action, Tracker
+from rasa_sdk.events import SlotSet, UserUtteranceReverted
+from rasa_sdk.executor import CollectingDispatcher
+
+
+class ActionCaptureAudio(Action):
+    def name(self):
+        return "action_capture_audio"
+
+    def run(self, dispatcher, tracker, domain):
+        # Start capturing live audio
+        r = sr.Recognizer()
+        mic = sr.Microphone()
+
+        # Prompt user to speak
+        dispatcher.utter_message(text="I'm listening...")
+        
+        with mic as source:
+            r.adjust_for_ambient_noise(source)
+            audio = r.listen(source)
+            dispatcher.utter_message(text="Got it! Now processing...")
+        
+        # Save audio to file
+        audio_file = "live_audio.wav"
+        with open(audio_file, "wb") as f:
+            f.write(audio.get_wav_data())
+
+        # Transcribe audio using SpeechBrain
+        asr_model = EncoderDecoderASR.from_hparams(source="speechbrain/asr-crdnn-rnnlm-librispeech", savedir="pretrained_models/asr-crdnn-rnnlm-librispeech")
+        waveform, sample_rate = torchaudio.load(audio_file)
+        transcript = asr_model.transcribe_batch([waveform], [sample_rate])[0]
+
+        # Set slot with transcribed text
+        return [SlotSet("captured_audio", transcript)]
+
+
+class ActionGenerateResponse(Action):
+    def name(self):
+        return "action_generate_response"
+
+    def run(self, dispatcher, tracker, domain):
+        # Get transcribed text from slot
+        captured_audio = tracker.get_slot("captured_audio")
+
+        # Generate response based on captured audio
+        response = "You said: {}".format(captured_audio)
+
+        dispatcher.utter_message(text=response)
+        return []
