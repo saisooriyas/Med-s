@@ -1,67 +1,52 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Rasa Chatbot</title>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  </head>
-  <body>
-    <div class="container">
-      <h1>Rasa Chatbot</h1>
-      <div class="row">
-        <div class="col-md-8">
-          <div class="card">
-            <div class="card-body messages-box">
-              <ul class="list-unstyled messages-list">
-              </ul>
-            </div>
-            <div class="card-footer">
-              <div class="input-group">
-                <input type="text" class="form-control input-message" placeholder="Type something...">
-                <div class="input-group-append">
-                  <button class="btn btn-primary btn-send">Send</button>
-                </div>
-              </div>
-            </div>
-          </div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="chatbox">
+        <div class="chatlog">
+            <div class="chat-bubble user-bubble">Hello!</div>
+            <div class="chat-bubble bot-bubble">Hi! How can I help you today?</div>
         </div>
-      </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
     </div>
-
     <script>
-      var chatSocket = new WebSocket('ws://localhost:5005/websocket');
-      chatSocket.onmessage = function(event) {
-        var data = JSON.parse(event.data);
-        var messagesList = $(".messages-list");
-        var messagesBox = $(".messages-box");
-        var messageContent = '<li class="clearfix"><div class="message-data text-right"><span class="message-data-time" >' + data.time + '</span> &nbsp; &nbsp;<span class="message-data-name" >Me</span> <i class="fa fa-circle me"></i></div><div class="message other-message float-right">' + data.text + '</div></li>';
-        messagesList.append(messageContent);
-        messagesBox.scrollTop(messagesBox.prop("scrollHeight"));
-      };
+        // Define the Rasa chatbot server URL and path
+        const chatbotSocketUrl = "http://localhost:5005/webhooks/rest/webhook";
 
-      $(".btn-send").click(function(){
-        var inputMessage = $(".input-message").val();
-        var messagesList = $(".messages-list");
-        var messagesBox = $(".messages-box");
-        var messageContent = '<li class="clearfix"><div class="message-data"><span class="message-data-name"><i class="fa fa-circle online"></i>Bot</span><span class="message-data-time">' + new Date().toLocaleTimeString() + '</span></div><div class="message my-message">' + inputMessage + '</div></li>';
-        messagesList.append(messageContent);
-        messagesBox.scrollTop(messagesBox.prop("scrollHeight"));
-
-        chatSocket.send(JSON.stringify({
-          'message': inputMessage,
-          'sender': 'User'
-        }));
-
-        $(".input-message").val("");
-      });
-
-      $(".input-message").keypress(function(event) {
-        if (event.which == 13) {
-          $(".btn-send").click();
+        // Send the user message to the chatbot and display the response
+        function sendMessage() {
+            const userInput = $("#user-input").val();
+            $("#user-input").val("");
+            $(".chatlog").append(`<div class="chat-bubble user-bubble">${userInput}</div>`);
+            $.ajax({
+                type: "POST",
+                url: chatbotSocketUrl,
+                data: JSON.stringify({ message: userInput }),
+                contentType: "application/json",
+                success: function(response) {
+                    $(".chatlog").append(`<div class="chat-bubble bot-bubble">${response[0].text}</div>`);
+                }
+            });
         }
-      });
+
+        // Send the user message when the Send button is clicked
+        $("#send-button").on("click", function() {
+            sendMessage();
+        });
+
+        // Send the user message when the Enter key is pressed in the input field
+        $("#user-input").on("keypress", function(event) {
+            if (event.which === 13) {
+                sendMessage();
+            }
+        });
     </script>
-  </body>
+</body>
 </html>
