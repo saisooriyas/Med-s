@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+</head>
+<body>
+    <h1>Chatbot</h1>
+    <input type="file" accept="audio/*" capture id="audioInput" onchange="startRecognition()">
+    <div id="chatbot"></div>
+    <script src="https://cdn.jsdelivr.net/npm/rasa-webchat/lib/index.min.js"></script>
+    <script>
+        WebChat.default({
+            selector: "#chatbot",
+            initPayload: '/get_started{"source":"placeholder"}',
+            customData: {"language": "en"}, // arbitrary custom data. Stay minimal as this will be added to the socket
+            socketUrl: "http://localhost:5005",
+            socketPath: "/socket.io/",
+            title: "My Chatbot",
+            subtitle: "Powered by Rasa",
+            inputTextFieldHint: "Type a message...",
+            profileAvatar: "https://i.imgur.com/7nm9A9E.png",
+            showFullScreenButton: true,
+            hideWhenNotConnected: true,
+            connectOn: "mount",
+            embedded: false,
+            params: {
+                storage: "session"
+            }
+        })
+        function startRecognition() {
+  var audio = document.getElementById('audioInput').files[0];
+  var formData = new FormData();
+  formData.append('voice', audio);
+  fetch('/webhooks/rest/webhook', {
+    method: 'POST',
+    body: formData
+  })
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(data) {
+    var message = data[0]['text'];
+    appendMessage('bot', message);
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+}
+    </script>
+</body>
+</html>
