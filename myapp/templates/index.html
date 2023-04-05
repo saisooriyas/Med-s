@@ -6,7 +6,6 @@
 </head>
 <body>
     <h1>Chatbot</h1>
-    <input type="file" accept="audio/*" capture id="audioInput" onchange="startRecognition()">
     <div id="chatbot"></div>
     <script src="https://cdn.jsdelivr.net/npm/rasa-webchat/lib/index.min.js"></script>
     <script>
@@ -28,25 +27,6 @@
                 storage: "session"
             }
         })
-        function startRecognition() {
-  var audio = document.getElementById('audioInput').files[0];
-  var formData = new FormData();
-  formData.append('voice', audio);
-  fetch('/webhooks/rest/webhook', {
-    method: 'POST',
-    body: formData
-  })
-  .then(function(response) {
-    return response.json();
-  })
-  .then(function(data) {
-    var message = data[0]['text'];
-    appendMessage('bot', message);
-  })
-  .catch(function(error) {
-    console.log(error);
-  });
-}
     </script>
 </body>
 </html>

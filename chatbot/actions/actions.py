@@ -25,7 +25,7 @@
 #         dispatcher.utter_message(text="Hello World!")
 #
 #         return []
-
+'''
 import os
 import requests
 import speech_recognition as sr
@@ -83,3 +83,4 @@ class ActionGenerateResponse(Action):
 
         dispatcher.utter_message(text=response)
         return []
+'''
