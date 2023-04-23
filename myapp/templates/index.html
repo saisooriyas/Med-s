@@ -11,7 +11,6 @@
     <script>
         WebChat.default({
             selector: "#chatbot",
-            initPayload: '/get_started{"source":"placeholder"}',
             customData: {"language": "en"}, // arbitrary custom data. Stay minimal as this will be added to the socket
             socketUrl: "http://localhost:5005",
             socketPath: "/socket.io/",
