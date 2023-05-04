@@ -74,10 +74,20 @@ WSGI_APPLICATION = 'webpage.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+MONGODB_HOST = 'localhost'
+MONGODB_PORT = 27017
+MONGODB_NAME = 'chatbot'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'MONGODB': {
+        'ENGINE': 'djongo',
+        'NAME': MONGODB_NAME,
+        'HOST': MONGODB_HOST,
+        'PORT': MONGODB_PORT,
     }
 }
 
