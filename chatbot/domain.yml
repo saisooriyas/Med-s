@@ -31,8 +31,11 @@ intents:
   - psychiatrist
   - confirm_appointment
   - cancel_appointment
+  - hospital_name
+  - select_doctor
 
 actions:
+  - ActionGetDoctors
   - action_new_sym
   - utter_greet
   - utter_question
@@ -73,19 +76,48 @@ actions:
   - utter_psychiatrist
   - utter_psychiatrist_appointment_confirmed
   - utter_appointment_cancelled
+  - utter_hospital_name
+  - utter_select_doctor
+
+entities:
+  - symptom
+  - hospital_name
+  - general_practitioner
+
+slots:
+  hospital_name:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: hospital_name
+        intent: hospital_name
+  general_practitioner:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: general_practitioner
+        intent: general_practitioner
 
 responses:
   utter_greet:
-    - text: "Hey! Tabib here, How can i help you."
+    - text: "Hey! Meds here, How can i help you."
 
   utter_question:
     - text: "<br>To get queries about Symptoms or to Book Appointments. Reply with Specific Keywords."
+
+  utter_hospital_name:
+    - text: "Which Hospital do you want to visit?"
+
+  utter_appointment_confirmed:
+    - text: "Your Appointment is confirmed. <br> Hospital Name: {hospital_name} <br> Doctor Name: {general_practitioner}"
 
   utter_goodbye:
     - text: "Great helping You! Bye."
 
   utter_iamabot:
-    - text: "I'm Tabib, your Virtual Healthcare Assistant."
+    - text: "I'm Meds, your Virtual Healthcare Assistant."
 
   utter_cold_sym:
     - text: "Okay, this is a symptom of cold, do you have cold?"

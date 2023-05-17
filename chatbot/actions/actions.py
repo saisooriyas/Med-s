@@ -9,8 +9,6 @@
 
 # from typing import Any, Text, Dict, List
 #
-# from rasa_sdk import Action, Tracker
-# from rasa_sdk.executor import CollectingDispatcher
 #
 #
 # class ActionHelloWorld(Action):
@@ -84,3 +82,35 @@ class ActionGenerateResponse(Action):
         dispatcher.utter_message(text=response)
         return []
 '''
+from typing import Any, Text, Dict, List
+from pymongo import MongoClient
+from pymongo.collection import Collection
+from rasa_sdk import Action, Tracker
+from rasa_sdk.executor import CollectingDispatcher
+
+client = MongoClient('mongodb://localhost:27017')
+db = client['your_database_name']
+
+
+class ActionGetDoctors(Action):
+    def name(self) -> Text:
+        return "action_get_doctors"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        hospital_name = tracker.get_slot('hospital_name')
+        doctor_specialty = tracker.get_slot('general_practitioner')
+
+        # Access the collection in the MongoDB database based on the hospital name
+        collection = db[hospital_name]
+
+        # Query the collection to retrieve doctors with the specified specialty
+        doctors = collection.find({'specialist': doctor_specialty})
+
+        # Build a list of doctor names
+        doctor_names = [doctor['name'] for doctor in doctors]
+
+        # Send the doctor names as buttons for the user to select
+        dispatcher.utter_message(text="Here are the available doctors:")
+        dispatcher.utter_message(buttons=doctor_names)
+
+        return []

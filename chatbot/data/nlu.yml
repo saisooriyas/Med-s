@@ -171,12 +171,27 @@ nlu:
 
   - intent: general_practitioner
     examples: |
-      - general physician
-      - general doctor
-      - medical practitioner
-      - physician
-      - family doctor
-      - health practitioner
+      - general physician{entity: "doctor_name", value: "general"}
+      - general doctor{entity: "doctor_name", value: "general"}
+      - medical practitioner{entity: "doctor_name", value: "general"}
+      - physician{entity: "doctor_name", value: "general"}
+      - family doctor{entity: "doctor_name", value: "general"}
+      - health practitioner{entity: "doctor_name", value: "general"}
+      - general{entity: "doctor_name", value: "general"}
+
+  - intent: select_doctor
+    examples: |
+      - Dr. Smith{entity: "doctor_name", value: "Dr. Smith"}
+      - Dr. Johnson{entity: "doctor_name", value: "Dr. Johnson"}
+      - Dr. Peterson{entity: "doctor_name", value: "Dr. Peterson"}
+      - Dr. Lee{entity: "doctor_name", value: "Dr. Lee"}
+
+  - intent: hospital_name
+    examples: |
+      - Rajiv Gandhi{ "entity": "hospital_name", "value": "Rajiv Gandhi" }
+      - Jipmer{ "entity": "hospital_name", "value": "Jipmer" }
+      - It is Jipmer{ "entity": "hospital_name", "value": "Jipmer" }
+      - It is Rajiv Gandhi Government General Hospital{ "entity": "hospital_name", "value": "Rajiv Gandhi" }
 
   - intent: ent_specialist
     examples: |

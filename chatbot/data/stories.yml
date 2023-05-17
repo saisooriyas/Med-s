@@ -67,10 +67,14 @@ stories:
   - story: appointment_booking path
     steps:
       - intent: qu_appointment
+      - action: utter_hospital_name
+      - intent: hospital_name
       - action: utter_which_doctor
       - intent: general_practitioner
       - action: utter_general_practitioner
-      - action: utter_hospitals_near
+      - action: ActionGetDoctors
+      - intent: select_doctor
+      - action: utter_appointment_confirmed
 
   - story: ent_appointment path
     steps:
