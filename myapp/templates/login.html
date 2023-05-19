@@ -1,21 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Login Page</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 	<style>
 		body {
 			font-family: Arial, sans-serif;
 			margin: 0;
 			padding: 0;
-			background-color: #f2f2f2;
+			background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROnBDkSt-KTodst-U9kNv8LrE1kPvZzt3kSQ&usqp=CAU);
+    background-repeat: no-repeat;
+    height: 100vh;
+    background-size:cover;
+    background-position: center;
+    position: relative;
+    background-attachment: fixed;
 		}
 		.container {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			height: 100vh;
+			height: 90vh;
 			width: 100%;
 			box-sizing: border-box;
 			padding: 20px;
@@ -82,7 +90,21 @@
 	</style>
 </head>
 <body>
-	<div class="container">
+    <header>
+            <div class="wrapper">
+                <div class ="logo">
+                    <img src="{% static 'images/logo.jpeg' %}" alt="Logo">
+                </div>
+                <ul class="nav-area">
+                    <li><a href="{% url 'home' %}" >home</a></li>
+                    <li><a href="{% url 'about' %}">about</a></li>
+                    <li><a href="{% url 'services' %}">services</a></li>
+                    <li><a href="{% url 'contact' %}">contact</a></li>
+                    <li><a href="{% url 'login' %}">login</a></li>
+                    <li><a href="{% url 'register' %}">register</a></li>
+                </ul>
+            </div>
+            <div class="container">
 		<h1>Login</h1>
 		<form method="post" action="{% url 'login' %}">
             {% csrf_token %}
@@ -97,5 +119,6 @@
 			<div class="signup">Don't have an account? <a href="{% url 'register' %}">Sign up</a></div>
 		</form>
 	</div>
+            </header>
 </body>
 </html>

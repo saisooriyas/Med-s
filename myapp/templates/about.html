@@ -1,0 +1,35 @@
+{% load static %}
+<!doctype html>
+<html class="headerabout">
+    <head>
+        <meta charset="UTF-8">
+        <title>Med's</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    </head>
+    <body>
+    <header >
+            <div class="wrapper">
+                <div class ="logo">
+                    <img src="{% static 'images/logo.jpeg' %}" alt="Logo">
+                </div>
+                <ul class="nav-area">
+                    <li><a href="{% url 'home' %}" >home</a></li>
+                    <li><a href="{% url 'about' %}">about</a></li>
+                    <li><a href="{% url 'services' %}">services</a></li>
+                    <li><a href="{% url 'contact' %}">contact</a></li>
+                    <li><a href="{% url 'login' %}">login</a></li>
+                    <li><a href="{% url 'register' %}">register</a></li>
+                </ul>
+            </div>
+            <div class="welcome-text">
+                <h1>About us</h1>
+                <p>We typically offer a platform that incorporates questions about medical insurance and healthcare using conversational AI.</p>
+                <p>The chatbot offers a tailored response to the particular questions posed by the clients. </p>
+                <p>This platform's overarching objective is to provide consumers with a simple and effective means to obtain the necessary healthcare and medical insurance-related information and services via a conversational interface.</p>
+
+
+            </div>
+            </header>
+    </body>
+</html>
