@@ -1,6 +1,7 @@
 version: "3.1"
 
 nlu:
+  # general answer
   - intent: greet
     examples: |
       - hey
@@ -22,7 +23,7 @@ nlu:
   - intent: goodbye
     examples: |
       - bye
-      - good by
+      - goodby
       - cee you later
       - good night
       - bye tabib
@@ -38,250 +39,170 @@ nlu:
       - are you a human?
       - am I talking to a bot?
       - am I talking to a human?
-      - who are you
+      - who are you?
 
-  - intent: cold
-    examples: |
-      - I have a cough
-      - cough
-      - cold
-      - I have a cold
-
-  - intent: cold_sym
-    examples: |
-      - My nose is choked
-      - nose choked
-      - My chest is aching
-      - chest pain
-      - My nose is itching
-      - nose itching
-      - My throat is itching
-      - throat itching
-
-  - intent: cold_confirm
-    examples: |
-      - yes i am having cold and cough
-      - yes i am having cold
-      - yes i am having cough
-      - yes
-      - ya
-
+  # general medical questions
   - intent: med_not_helped
     examples: |
-      - No, i am still not felling better after having benadryl.
-      - No, i am still not felling better after having crocin.
-      - i am not feeling better
-      - medicine did not helped me
-      - i am not feeling well
-      - No
+      - No, I am still not feeling better after taking Benadryl.
+      - No, I am still not feeling better after taking Crocin.
+      - I am not feeling better.
+      - The medicine did not help me.
+      - I am not feeling well.
+      - No.
 
   - intent: med_helped
     examples: |
-      - medicine helped me
-      - i am feeling better now
-      - it was good medicine
-      - feeling good
-      - i am feeling better
+      - The medicine helped me.
+      - I am feeling better now.
+      - It was a good medicine.
+      - Feeling good.
+      - I am feeling better.
 
   - intent: not_well
     examples: |
-      - I am not feeling well
-      - i feel sick
-      - i am sick
-      - i am not well
+      - I am not feeling well.
+      - I feel sick.
+      - I am sick.
+      - I am not well.
 
   - intent: well
     examples: |
-      - i feel fine
-      - i am feeling fine
-      - i feel great
-      - i feel awesome
+      - I feel fine.
+      - I am feeling fine.
+      - I feel great.
+      - I feel awesome.
 
+  # symptoms
   - intent: fever_sym
     examples: |
-      - My body temperature has raised
-      - I am shivering
-      - I am feeling weak
-      - I have weakness in my body
-      - i am having fever
-      - fever
+      - My body temperature has risen.
+      - I am shivering.
+      - I am feeling weak.
+      - I have weakness in my body.
+      - I am having a fever.
+      - Fever.
+
+  - intent: cold
+    examples: |
+      - I have a cough.
+      - Cough.
+      - Cold.
+      - I have a cold.
+
+  - intent: cold_sym
+    examples: |
+      - My nose is blocked.
+      - Nose blocked.
+      - My chest is aching.
+      - Chest pain.
+      - My nose is itching.
+      - Nose itching.
+      - My throat is itching.
+      - Throat itching.
+
+  - intent: cold_confirm
+    examples: |
+      - Yes, I am having a cold and cough.
+      - Yes, I am having a cold.
+      - Yes, I am having a cough.
 
   - intent: fracture_sym
     examples: |
-      - my hand is aching
-      - hand pain
-      - leg pain
-      - joint pain
-      - my leg is aching
-      - i have pain in hand
-      - my hand is paining
-      - my joint is aching
+      - My hand is aching.
+      - Hand pain.
+      - Leg pain.
+      - Joint pain.
+      - My leg is aching.
+      - I have pain in my hand.
+      - My hand is hurting.
+      - My joint is aching.
 
   - intent: fracture_details
     examples: |
-      - it is a mild ache
-      - yes there is a swelling
-      - yes there is a physical deformity
-      - yes it is bleeding
-      - yes
+      - It is a mild ache.
+      - Yes, there is swelling.
+      - Yes, there is physical deformity.
+      - Yes, it is bleeding.
+      - Yes.
 
   - intent: fracture_accepted
     examples: |
-      - yes
-      - yes i think it is fracture
-      - yes it is hurting
-      - it is bleeding
-      - blood is coming out
+      - Yes.
+      - Yes, I think it is a fracture.
+      - Yes, it is hurting.
+      - It is bleeding.
+      - Blood is coming out.
 
   - intent: headache
     examples: |
-      - i have a headache
-      - headache
-      - headche
-      - head pain
-      - i am having pain in forehead
-      - i have head pain
-      - pain in head
+      - I have a headache.
+      - Headache.
+      - Headache.
+      - Head pain.
+      - I am having pain in my forehead.
+      - I have head pain.
+      - Pain in head.
 
   - intent: migrane
     examples: |
-      - i have a migrane headache
-      - migrane headache
-      - migrane
+      - I have a migraine headache.
+      - Migraine headache.
+      - Migraine.
 
   - intent: cluster_headache
     examples: |
-      - i have a cluster headache
-      - cluster headache
-      - cluster
+      - I have a cluster headache.
+      - Cluster headache.
+      - Cluster.
 
   - intent: tension_headache
     examples: |
-      - i have a tension headache
-      - tension headache
-      - tension
+      - I have a tension headache.
+      - Tension headache.
+      - Tension.
 
+  # appointment
   - intent: qu_appointment
     examples: |
-      - I want to book an Appointment
-      - book Appointment
-      - appointment with doctor
-      - doctor appointment
-      - i want to book appointment
+      - I want to book an appointment.
+      - Book appointment.
+      - Appointment with a doctor.
+      - Doctor appointment.
+      - I want to book an appointment.
 
-  - intent: general_practitioner
+  - intent: hospital_name_in
     examples: |
-      - general physician{entity: "doctor_name", value: "general"}
-      - general doctor{entity: "doctor_name", value: "general"}
-      - medical practitioner{entity: "doctor_name", value: "general"}
-      - physician{entity: "doctor_name", value: "general"}
-      - family doctor{entity: "doctor_name", value: "general"}
-      - health practitioner{entity: "doctor_name", value: "general"}
-      - general{entity: "doctor_name", value: "general"}
+      - [Rajiv Gandhi](hospital_name_en)
+      - [Jipmer](hospital_name_en)
+      - It is [Jipmer](hospital_name_en)
+      - It is [Rajiv Gandhi](hospital_name_en) Government General Hospital
+
+  - intent: general_practitioner_in
+    examples: |
+      - [general practitioner](general_practitioner_en)
+      - [general doctor](general_practitioner_en)
+      - [Medical practitioner](general_practitioner_en)
+      - [Physician](general_practitioner_en)
+      - [Family doctor](general_practitioner_en)
+      - [Health practitioner](general_practitioner_en)
+      - [general](general_practitioner_en)
 
   - intent: select_doctor
     examples: |
-      - Dr. Smith{entity: "doctor_name", value: "Dr. Smith"}
-      - Dr. Johnson{entity: "doctor_name", value: "Dr. Johnson"}
-      - Dr. Peterson{entity: "doctor_name", value: "Dr. Peterson"}
-      - Dr. Lee{entity: "doctor_name", value: "Dr. Lee"}
-
-  - intent: hospital_name
-    examples: |
-      - Rajiv Gandhi{ "entity": "hospital_name", "value": "Rajiv Gandhi" }
-      - Jipmer{ "entity": "hospital_name", "value": "Jipmer" }
-      - It is Jipmer{ "entity": "hospital_name", "value": "Jipmer" }
-      - It is Rajiv Gandhi Government General Hospital{ "entity": "hospital_name", "value": "Rajiv Gandhi" }
-
-  - intent: ent_specialist
-    examples: |
-      - ent specialist
-      - ent doctor
-      - e n t specialist
-      - e n t doctor
-      - ear specialist
-      - ear doctor
-      - nose specialist
-      - nose doctor
-      - throat specialist
-      - throat doctor
-      - ear nose throat specialist
-      - ear nose throat doctor
-
-  - intent: homeopathy
-    examples: |
-      - homeopathy specialist
-      - homeopathy doctor
-      - ayush homoeopath
-      - homoeopath
-      - homeopathic
-      - homoeopathic
-      - homoeopaths
-
-  - intent: ayurveda
-    examples: |
-      - ayurveda
-      - ayush ayurveda
-      - traditional
-      - ayurvedic
-      - ayurvedic specialist
-      - ayurveda specialist
-
-  - intent: pediatrician
-    examples: |
-      - pediatrician
-      - pediatricians
-      - pediatrist
-      - child specialist
-      - children specialist
-      - child doctor
-      - children doctor
-
-  - intent: dermatologist
-    examples: |
-      - Dermatologist
-      - dermatology
-      - Dermatologic
-
-  - intent: dentist
-    examples: |
-      - dentist
-      - tooth doctor
-      - teeth doctor
-      - tooth pain
-      - teeth pain
-      - pain in teeth
-
-  - intent: gynaecologist
-    examples: |
-      - gynaecologist
-      - pregnant
-      - period cramps
-      - mood swings
-      - periods
-      - abdominal pain
-      - labour pain
-      - menstrual cycle
-      - puberty
-      - blood transfusion
-      - breaking of water
-
-  - intent: psychiatrist
-    examples: |
-      - psychiatrist
-      - sycho
-      - mental problem
-      - mental
-      - brain
+      - [Dr. Smith](doctor_name_en)
+      - [Dr. Johnson](doctor_name_en)
+      - [Dr. Peterson](doctor_name_en)
+      - [Dr. Lee](doctor_name_en)
 
   - intent: confirm_appointment
     examples: |
-      - confirm
-      - yes
-      - confirm appointment
+      - Confirm.
+      - Yes.
+      - Confirm appointment.
 
   - intent: cancel_appointment
     examples: |
-      - cancel
-      - no
-      - cancel appointment
+      - Cancel.
+      - No.
+      - Cancel appointment.

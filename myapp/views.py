@@ -7,26 +7,26 @@ from pymongo import MongoClient
 from myapp.models import CustomUser
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
-from myapp.models import Profile
+'from myapp.models import Profile'
 from pymongo import MongoClient
 import hashlib
+from django.contrib.auth import get_user_model
+from django.db import models
 
-def about_view(request):
-    return render(request, 'about.html')
 
 def home_view(request):
     return render(request, 'home.html')
+def about_view(request):
+    return render(request, 'about.html')
 
 def contact(request):
     return render(request, 'contact.html')
 
 def contact_us(request):
-    return render(request, 'contactus.html')
+    return render(request,'contactus.html')
 
 def services(request):
-    return render(request, 'services.html')
-
-
+    return render(request,'services.html')
 def chat(request):
     if request.method == 'POST':
         message = request.POST.get('message')
@@ -58,6 +58,19 @@ def login_view(request):
         return render(request, 'login.html')
 
 
+
+User = get_user_model()
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.CharField(max_length=50, unique=True, default="abcd")
+    phone_number = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.user.username}: {self.email}, {self.phone_number}"
+
+
 def generate_user_id(email):
     # Generate unique ID based on email
     email_hash = hashlib.md5(email.encode()).hexdigest()
@@ -68,7 +81,8 @@ def register_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        phone_number = request.POST.get('phone_number')
+        phone_number = request.POST.get('phone')
+        username = request.POST.get('name')
 
         # Connect to MongoDB database
         client = MongoClient('mongodb://localhost:27017/')
@@ -86,6 +100,7 @@ def register_view(request):
         # Add user to database
         user_data = {
             'user_id': user_id,
+            'username': username,
             'email': email,
             'password': password,
             'phone_number': phone_number
@@ -93,17 +108,16 @@ def register_view(request):
         users_collection.insert_one(user_data)
 
         # Create a new CustomUser instance
-        user = CustomUser(user_id=user_id, email=email)
-        user.set_password(password)
-        user.save()
+        user = CustomUser.objects.create_user(username=username,id=user_id, email=email, password=password)
 
         # Create a new Profile instance
-        profile = Profile(user=user, phone_number=phone_number)
+        profile = Profile(user=user, email=email, phone_number=phone_number)
         profile.save()
 
         return redirect('chat')  # Redirect to the login page
     else:
         return render(request, 'registration.html')
+
 
 
 def logout_view(request):

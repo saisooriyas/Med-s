@@ -8,6 +8,18 @@
     margin: auto;
 }
 
+.message_body{
+    background: #1b1b1b;
+    background-image: url(https://hips.hearstapps.com/hmg-prod/images/types-of-doctors-1600114658.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*);
+    background-repeat: no-repeat;
+    height: 100vh;
+    -webkit-background-size: cover;
+    background-size:cover;
+    background-position: center;
+    position: relative;
+    background-attachment: fixed;
+}
+
 .nav-area{
     float: right;
     list-style: none;

@@ -1,0 +1,10 @@
+[
+  {
+    "name": "general_practitioner",
+    "pattern": "(General physician|General doctor|Medical practitioner|Physician|Family doctor|Health practitioner|General|general)"
+  },
+  {
+    "name": "hospital_name",
+    "pattern": "(Rajiv Gandhi|Jipmer|It is Jipmer|It is Rajiv Gandhi Government General Hospital)"
+  }
+]
