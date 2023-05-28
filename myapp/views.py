@@ -37,7 +37,6 @@ def chat(request):
         return render(request, 'chat.html')
     return HttpResponse("Hi, you are not logged in.")
 
-
 def login_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
