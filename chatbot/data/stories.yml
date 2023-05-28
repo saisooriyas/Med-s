@@ -64,82 +64,24 @@ stories:
       - action: utter_tension_headache
       - action: utter_hospitals_near
 
-  - story: appointment_booking path
+  - story: appointment_booking
     steps:
       - intent: qu_appointment
+      - action: utter_hospital_name
+      - intent: hospital_name_in
+      - slot_was_set:
+          - hospital_name: "JIPMER"
       - action: utter_which_doctor
-      - intent: general_practitioner
-      - action: utter_general_practitioner
-      - action: utter_hospitals_near
-
-  - story: ent_appointment path
-    steps:
-      - intent: ent_specialist
-      - action: utter_ent_specialist
+      - intent: general_practitioner_in
+      - slot_was_set:
+          - general_practitioner: "general"
+      - action: action_get_doctors
+      - intent: select_doctor
+      - action: utter_select_doctor
       - intent: confirm_appointment
-      - action: utter_ent_appointment_confirmed
-      - intent: cancel_appointment
-      - action: utter_appointment_cancelled
+      - action: utter_appointment_confirmed
 
-  - story: homeopathy_appointment path
+  - story: appointment_cancellation path
     steps:
-      - intent: homeopathy
-      - action: utter_homeopathy
-      - intent: confirm_appointment
-      - action: utter_homeopathy_appointment_confirmed
-      - intent: cancel_appointment
-      - action: utter_appointment_cancelled
-
-  - story: ayurveda_appointment path
-    steps:
-      - intent: ayurveda
-      - action: utter_ayurveda
-      - intent: confirm_appointment
-      - action: utter_ayurveda_appointment_confirmed
-      - intent: cancel_appointment
-      - action: utter_appointment_cancelled
-
-  - story: pediatrician_appointment path
-    steps:
-      - intent: pediatrician
-      - action: utter_pediatrician
-      - intent: confirm_appointment
-      - action: utter_pediatrician_appointment_confirmed
-      - intent: cancel_appointment
-      - action: utter_appointment_cancelled
-
-  - story: dermatologist_appointment path
-    steps:
-      - intent: dermatologist
-      - action: utter_dermatologist
-      - intent: confirm_appointment
-      - action: utter_dermatologist_appointment_confirmed
-      - intent: cancel_appointment
-      - action: utter_appointment_cancelled
-
-  - story: dentist_appointment path
-    steps:
-      - intent: dentist
-      - action: utter_dentist
-      - intent: confirm_appointment
-      - action: utter_dentist_appointment_confirmed
-      - intent: cancel_appointment
-      - action: utter_appointment_cancelled
-
-  - story: gynaecologist_appointment path
-    steps:
-      - intent: gynaecologist
-      - action: utter_gynaecologist
-      - intent: confirm_appointment
-      - action: utter_gynaecologist_appointment_confirmed
-      - intent: cancel_appointment
-      - action: utter_appointment_cancelled
-
-  - story: psychiatrist_appointment path
-    steps:
-      - intent: psychiatrist
-      - action: utter_psychiatrist
-      - intent: confirm_appointment
-      - action: utter_psychiatrist_appointment_confirmed
       - intent: cancel_appointment
       - action: utter_appointment_cancelled
