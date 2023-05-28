@@ -22,6 +22,7 @@ class CustomUser(AbstractUser):
         return str(self.id)
 
 
+
 '''class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=20)
